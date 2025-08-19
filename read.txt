@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<table id="screen"></table>
+<br>
+<button onclick="reset()">Replay</button>
+<script>
+    let arr = [
+        ["","",""],
+        ["","",""],
+        ["","",""]
+    ]
+    let player = 1;
+    function drawScreen(){
+        let html = "";
+        for(let i=0;i<arr.length;i++){
+            html += "<tr>";
+            for (let j=0;j<arr.length;j++){
+                html += `<td onclick="play(${i}, ${j})">${arr[i][j]}</td>`;
+            }
+            html += "</tr>";
+        }
+        document.getElementById("screen").innerHTML = html;
+    }
+    function play(x,y){
+        if (player === 1){
+            arr[x][y] = "X";
+            if(checkWin()){
+                alert(`Player ${player} win`);
+            }
+            player = 2;
+        }else {
+            arr[x][y] = "O";
+            if(checkWin()){
+                alert(`Player ${player} win`);
+            }
+            player = 1;
+        }
+
+        drawScreen();
+    }
+    function checkWin(){
+        for (let i=0;i<arr.length;i++){
+            if (arr[i][0] === arr[i][1] && arr[i][1] === arr[i][2] && arr[i][0] !== ""){
+                return true;
+            }
+        }
+        for (let i=0;i<arr.length;i++){
+            if (arr[0][i] === arr[1][i] && arr[1][i] === arr[2][i] && arr[0][i] !==""){
+                return true;
+            }
+        }
+        for (let i=0;i<arr.length;i++){
+            if (arr[1][1] !== "" &&
+                ((arr[0][0] === arr[1][1] && arr[1][1] === arr[2][2]) ||
+                    (arr[0][2] === arr[1][1] && arr[1][1] === arr[2][0]))) {
+                return true;
+            }
+        }
+    }
+    function reset(){
+        arr = [
+            ["","",""],
+            ["","",""],
+            ["","",""]
+        ];
+        player = 1;
+        drawScreen();
+    }
+    drawScreen();
+</script>
+</body>
+</html>
